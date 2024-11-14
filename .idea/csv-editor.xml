@@ -17,6 +17,27 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\practices\hough_transform\matriz_borders.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\practices\hough_transform\matriz_gris.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\practices\hough_transform\matriz_vecindarios.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
