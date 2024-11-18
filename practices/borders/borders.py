@@ -3,16 +3,14 @@ import math
 import cv2
 import numpy as np
 import time
+from tkinter import filedialog
 
 THRESHOLD = 50
 
 total_start = time.time()
 setup_start = time.time()
 
-base_path = 'C:/Users/jesus/vc-repo/cv_lab/practices/borders/'
-image_file_name = 'tic-tac-toe.png'
-
-full_path = f'{base_path}{image_file_name}'
+full_path = filedialog.askopenfilename()
 img = cv2.imread(full_path)
 height, width, _ = img.shape
 
@@ -128,15 +126,15 @@ print("Borders:", round(borders_end - borders_start), "seconds")
 
 decimal_matrix = matrix / 255.0
 
-with open(f"{base_path}matriz_gris_{image_file_name.replace('.', '_')}.csv", mode="w", newline="") as archivo_csv:
+with open(f"matriz_gris_.csv", mode="w", newline="") as archivo_csv:
     escritor_csv = csv.writer(archivo_csv)
     escritor_csv.writerows(decimal_matrix)
 
-with open(f"{base_path}matriz_vecindarios_{image_file_name.replace('.', '_')}.csv", mode="w", newline="") as archivo_csv:
+with open(f"matriz_vecindarios_.csv", mode="w", newline="") as archivo_csv:
     escritor_csv = csv.writer(archivo_csv)
     escritor_csv.writerows(neighborhoods)
 
-with open(f"{base_path}matriz_bordes_{image_file_name.replace('.', '_')}.csv", mode="w", newline="") as archivo_csv:
+with open(f"matriz_bordes_.csv", mode="w", newline="") as archivo_csv:
     escritor_csv = csv.writer(archivo_csv)
     escritor_csv.writerows(matrix_borders)
 
