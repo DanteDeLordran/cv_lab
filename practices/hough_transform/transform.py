@@ -3,12 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import threading
 import time
+from tkinter import filedialog
 
 THRESHOLD = 50
 
-base_path = 'C:/Users/jesus/vc-repo/cv_lab/practices/hough_transform/'
-
-borders = np.loadtxt(f"{base_path}matriz_bordes_calle_jpg.csv", delimiter=',')
+borders = np.loadtxt(filedialog.askopenfilename(), delimiter=',')
 height, width = borders.shape
 
 matrix_votes_1 = np.zeros((height, width), dtype=int)
@@ -159,7 +158,7 @@ plt.show()
 
 
 def guardar_resultado(matrix, nombre):
-    with open(f"{base_path}{nombre}.csv", mode="w", newline="") as archivo_csv:
+    with open(f"{nombre}.csv", mode="w", newline="") as archivo_csv:
         escritor_csv = csv.writer(archivo_csv)
         escritor_csv.writerows(matrix)
 

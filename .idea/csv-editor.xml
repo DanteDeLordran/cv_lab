@@ -24,6 +24,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\practices\hough_transform\matriz_votos_promedio.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
