@@ -3,7 +3,7 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\10_NEGATIVE.csv">
+        <entry key="\practices\borders\matriz_bordes_.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -11,6 +11,20 @@
           </value>
         </entry>
         <entry key="\practices\borders\matriz_gris.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\practices\borders\matriz_vecindarios_.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\practices\hough_transform\matriz_votos_promedio.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
