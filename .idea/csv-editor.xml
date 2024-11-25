@@ -10,13 +10,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\practices\borders\matriz_gris.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\practices\borders\matriz_vecindarios_.csv">
           <value>
             <Attribute>
