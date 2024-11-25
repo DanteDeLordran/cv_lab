@@ -31,6 +31,7 @@ neighborhoods_start = time.time()
 def has_uncolored():
     return not matrix_colored.all()
 
+
 def when_pixel_applies_to_nb(y: int, x: int):
     matrix_colored[y, x] = True
     matrix_checked[y, x] = True
@@ -55,6 +56,7 @@ def when_pixel_applies_to_nb(y: int, x: int):
         check_nb(y + 1, x)
         if x < width - 1:
             check_nb(y + 1, x + 1)
+
 
 def check_nb(y, x):
     if not matrix_checked[y, x] and nb_pivot - THRESHOLD <= matrix[y, x] <= nb_pivot + THRESHOLD:
