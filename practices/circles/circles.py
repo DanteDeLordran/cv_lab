@@ -7,8 +7,7 @@ import pandas as pd
 import math
 
 # Se importa la matriz con los bordes señalados
-# Matriz binaria de bordes
-matrix_borders_pd = pd.read_csv("matriz_borders.csv")
+matrix_borders_pd = pd.read_csv("matriz_bordes_aux.csv")
 
 matrix_borders = np.array(matrix_borders_pd)
 
@@ -41,7 +40,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelRecta1 = True
             break
-        matrix_borders[i][j] = 0.75
+        # matrix_borders[i][j] = 0.75
         j += 1    
 
     if not cutPixelRecta1 :
@@ -60,7 +59,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelRecta2 = True
             break
-        matrix_borders[i][j] = 0.75
+        # matrix_borders[i][j] = 0.75
         i += 1    
     if not cutPixelRecta2 :
         matrix_borders = matrix_borders_copy.copy()
@@ -78,7 +77,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelDiagonal1 = True
             break
-        matrix_borders[i][j] = 0.75
+        # matrix_borders[i][j] = 0.75
         i += 1    
         j += 1
     if not cutPixelDiagonal1 :
@@ -97,7 +96,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelDiagonal2 = True
             break
-        matrix_borders[i][j] = 0.25
+        # matrix_borders[i][j] = 0.25
         i += 1
         j -= 1
     if not cutPixelDiagonal2 :
@@ -116,7 +115,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelRecta3 = True
             break
-        matrix_borders[i][j] = 0.5
+        # matrix_borders[i][j] = 0.5
         j -= 1    
     if not cutPixelRecta3 :
         matrix_borders = matrix_borders_copy.copy()
@@ -134,7 +133,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelRecta4 = True
             break
-        matrix_borders[i][j] = 0.25
+        # matrix_borders[i][j] = 0.25
         i -= 1    
     if not cutPixelRecta4 :
         matrix_borders = matrix_borders_copy.copy()
@@ -152,7 +151,7 @@ def is_cut_pixel(x,y):
         if pixel == 1:
             cutPixelDiagonal3 = True
             break
-        matrix_borders[i][j] = 0.25
+        # matrix_borders[i][j] = 0.25
         i -= 1    
         j -= 1
     if not cutPixelDiagonal3 :
@@ -335,16 +334,6 @@ for i, row in enumerate(matrix_borders):
         if pixel == 1:
             is_cut_pixel(i,j)
 
-# votos_flat = matrix_votes_circle.flatten()
-
-# umbral = np.percentile(votos_flat, 95)  # Cambia 95 al percentil deseado
-
-# max_votes = np.max(votes_flat)
-# mean_votes = np.mean(votes_flat)
-# std_votes = np.std(votes_flat)
-
-# umbral = mean_votes + std_votes
-
 nVal = 0
 suma = 0
 
@@ -355,7 +344,7 @@ for i in matrix_votes_circle:
             suma += j
 
 umbral = suma/nVal
-umbral = umbral + umbral*0.25
+umbral = umbral + umbral*0.35
 
 print('umbral: ', umbral)
 
@@ -373,93 +362,29 @@ matrix_circles = matrix_borders_umbral_applied.copy()
 try:
      for i, row in enumerate(matrix_circles):
         for j, pixel in enumerate(row):
-            if pixel == 1 and (i+1>=height or matrix_circles[i+1][j] == 0) and (i+1>=height or j+1>=width or matrix_circles[i+1][j+1] == 0) and (i-1 <= -1 or matrix_circles[i-1][j] == 0)  and (i-1 <= -1 or j+1 >= width or matrix_circles[i-1][j+1] == 0) and (i-1 <= -1 or j-1 <= -1 or matrix_circles[i-1][j-1] == 0) and (j+1 >= height or matrix_circles[i][j+1] == 0) and (j-1 <= -1 or matrix_circles[i][j-1]) == 0 and (i+1>= height or j-1 <= width or matrix_circles[i+1][j-1] == 0) and (i+2 >= height or matrix_circles[i+2][j] == 0) and (i+2 >= height or j+2 >= height or matrix_circles[i+2][j+2] == 0) and (i-2 <= -1 or matrix_circles[i-2][j] == 0) and (i-2 <= -1 or j+2 >= width or matrix_circles[i-2][j+2] == 0) and (i-2 <= -1 or j-2 <= -1 or matrix_circles[i-2][j-2] == 0) and (j+2 >= width or matrix_circles[i][j+2] == 0) and (j-2 <= -1 or matrix_circles[i][j-2] == 0) and (i+2 >= height or j-2 <= -1 or matrix_circles[i+2][j-2] == 0): 
-                # radios = search_radio_circle(i,j, umbral)
+                if (
+                    pixel == 1 and  # Pixel central
+                    # Chequeo de píxeles a distancia 1
+                    (i+1 >= height or matrix_circles[i+1][j] == 0) and  # Abajo
+                    (i+1 >= height or j+1 >= width or matrix_circles[i+1][j+1] == 0) and  # Abajo-derecha
+                    (i-1 < 0 or matrix_circles[i-1][j] == 0) and  # Arriba
+                    (i-1 < 0 or j+1 >= width or matrix_circles[i-1][j+1] == 0) and  # Arriba-derecha
+                    (i-1 < 0 or j-1 < 0 or matrix_circles[i-1][j-1] == 0) and  # Arriba-izquierda
+                    (j+1 >= width or matrix_circles[i][j+1] == 0) and  # Derecha
+                    (j-1 < 0 or matrix_circles[i][j-1] == 0) and  # Izquierda
+                    (i+1 >= height or j-1 < 0 or matrix_circles[i+1][j-1] == 0)  # Abajo-izquierda
 
-                # isValidRadio = True
-                # previousRadio = radios[0]
-
-                # for item in radios:
-                #     isValidRadio = isValidRadio and (item <= previousRadio + previousRadio*.10 and item >= previousRadio - previousRadio*.10)
-
-                # if not isValidRadio:
-                #     break
-                
-                # radio = radios[0]
-
-                # radios = search_radio_circle(i,y, umbral)
-
-                # radiosRep = []
-                # savedRadios = []
-
-                # print('hola')
-
-                # for item in radios:
-                #     if not item in savedRadios:
-                #         savedRadios.append(item)
-                #         radiosRep.append([item, 1])
-                #     else:
-                #         index = None
-                #         for i,r in enumerate(radiosRep):
-                #             if r[0] == item:
-                #                 index = i
-                #                 break
-                #         radiosRep[index][1] += 1
-                
-                # maxRadiosRepIndex = 0
-
-                # for i, r in enumerate(radiosRep):
-                #     if r > radiosRep[maxRadiosRepIndex][1]:
-                #         maxRadiosRepIndex = i
-                
-                # print(radios)
-
-                # radio = radiosRep[maxRadiosRepIndex][0]
-
-                # isValidRadios = [True]*8
-                # validRadios = []
-
-                # for i,item in enumerate(radiosRep):
-                #     isValidRadios[i] = item[0] <= radio+radio*0.1 and item[0] >= radio-radio*0.1
-                #     if isValidRadios[i]:
-                #         validRadios.append(item[0])
-
-                # if len(validRadios) > 2:
-                matrix_centers[i][j] = 1
-
-                # if radio is not None and radio > 0:
-                #     validations = [False,False,False,False,False,False,False,False]
-                    
-                #     # for dx in [-1, 0, 1]:
-                #     #     for dy in [-1, 0, 1]:
-
-                #     #         if is_within_bounds(i, j + radio - 1 + dy, width, height):
-                #     #             validations[0] = validations[0] or matrix_circles[i + dx][j + radio - 1 + dy] == 1
-                            
-                #     #         if is_within_bounds(i + radio - 1 + dx, j + radio - 1 + dy, width, height):
-                #     #             validations[1] = validations[1] or matrix_circles[i + radio - 1 + dx][j + radio - 1 + dy] == 1
-                            
-                #     #         if is_within_bounds(i - radio + 1 + dx, j - radio + 1 + dy, width, height):
-                #     #             validations[2] = validations[2] or matrix_circles[i - radio + 1 + dx][j - radio + 1 + dy] == 1
-                            
-                #     #         if is_within_bounds(i + dx, j - radio + 1 + dy, width, height):
-                #     #             validations[3] = validations[3] or matrix_circles[i + dx][j - radio + 1 + dy] == 1
-                            
-                #     #         if is_within_bounds(i - radio + 1 + dx, j + dy, width, height):
-                #     #             validations[4] = validations[4] or matrix_circles[i - radio + 1 + dx][j + dy] == 1
-                            
-                #     #         if is_within_bounds(i + radio - 1 + dx, j + dy, width, height):
-                #     #             validations[5] = validations[5] or matrix_circles[i + radio - 1 + dx][j + dy] == 1
-                            
-                #     #         if is_within_bounds(i - radio + 1 + dx, j + dy, width, height):
-                #     #             validations[6] = validations[6] or matrix_circles[i - radio + 1 + dx][j + dy] == 1
-                            
-                #     #         if is_within_bounds(i + radio - 1 + dx, j + radio - 1 + dy, width, height):
-                #     #             validations[7] = validations[7] or matrix_circles[i + radio - 1 + dx][j + radio - 1 + dy] == 1
-                    
-                #     # if sum(validations) == 8:
-                #     #     print(validations)
-                #     matrix_centers[i][j] = 1
+                    # Chequeo de píxeles a distancia 2
+                    # (i+2 >= height or matrix_circles[i+2][j] == 0) and  # Dos posiciones abajo
+                    # (i+2 >= height or j+2 >= width or matrix_circles[i+2][j+2] == 0) and  # Abajo-derecha
+                    # (i-2 < 0 or matrix_circles[i-2][j] == 0) and  # Dos posiciones arriba
+                    # (i-2 < 0 or j+2 >= width or matrix_circles[i-2][j+2] == 0) and  # Arriba-derecha
+                    # (i-2 < 0 or j-2 < 0 or matrix_circles[i-2][j-2] == 0) and  # Arriba-izquierda
+                    # (j+2 >= width or matrix_circles[i][j+2] == 0) and  # Dos posiciones a la derecha
+                    # (j-2 < 0 or matrix_circles[i][j-2] == 0) and  # Dos posiciones a la izquierda
+                    # (i+2 >= height or j-2 < 0 or matrix_circles[i+2][j-2] == 0)  # Abajo-izquierda
+                ):
+                    matrix_centers[i][j] = 1
 except:
     print("Error al crear matriz de centros")
 
@@ -469,15 +394,18 @@ try:
     for i, row in enumerate(matrix_centers):
         for j, pixel in enumerate(row):
             if pixel == 1: 
-                # print(i,',',j)
                 radios = search_radio_circle(i,j, umbral)
                 radio = radios[0]
                 
                 isValidCenter = True
 
-                for r in radios:
-                    isValidCenter = isValidCenter and r >= radio-radio*.10 and r <= radio+radio*.10
+                nValidRadios = 0
 
+                for r in radios:
+                    if r >= radio-radio*.2 and r <= radio+radio*.2:
+                        nValidRadios = nValidRadios + 1
+
+                isValidCenter = nValidRadios >= 5
                 
                 if radio > 0 and isValidCenter:
                     print(radios)
@@ -485,9 +413,11 @@ try:
                         radianes = math.radians(angulo)
                         x = int(round(i + radio * math.cos(radianes)))
                         y = int(round(j + radio * math.sin(radianes))) 
-                        if x < height and y < width and x >= 0 and y >= 0:
-                            if matrix_borders_aux[x][y] == 1:#or matrix_borders_aux[x+1][y] == 1 or matrix_borders_aux[x+1][y+1] == 1  or matrix_borders_aux[x-1][y] == 1  or matrix_borders_aux[x-1][y+1] == 1  or matrix_borders_aux[x-1][y-1] == 1  or matrix_borders_aux[x][y+1] == 1  or matrix_borders_aux[x][y-1] == 1 or matrix_borders_aux[x+1][y-1] == 1:
-                                matrix_marked_circles[x][y] = 1
+                        for i in range(round(x-x*.2), round(x+x*.2)):
+                            for j in range(round(y-y*.2), round(y+y*.2)):
+                                if i < height and j < width and i >= 0 and j >= 0:
+                                    if matrix_borders_aux[i][j] == 1 :
+                                        matrix_marked_circles[x][y] = 1
 
 except: 
     print("ocurrio un error")
